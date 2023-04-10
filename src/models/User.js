@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
     lowercase: true,
     required: true,
     trim: true,
+    minLength: 2,
     maxlength: 20,
   },
   email: {
@@ -13,11 +14,13 @@ const UserSchema = new mongoose.Schema({
     lowercase: true,
     required: true,
     trim: true,
+    maxlength: 40,
   },
   password: {
     type: String,
     required: true,
     minlength: 8,
+    maxlength: 20,
   },
 });
 
