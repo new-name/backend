@@ -3,8 +3,19 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 exports.login = async (req, res, next) => {
+  const { email, password } = req.body;
+
   try {
-    res.send({ result: "ok" });
+    const user = await User.findOne({ email });
+    const isHashed = await bcrypt.compare(password, user.password);
+
+    if (!user || !isHashed) {
+      return res
+        .status(400)
+        .send({ message: "No user with that email or password" });
+    }
+
+    res.status(201).send({ result: "Success", user });
   } catch (err) {
     next(err);
   }
