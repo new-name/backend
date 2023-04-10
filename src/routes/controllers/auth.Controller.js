@@ -23,8 +23,20 @@ exports.signin = async (req, res, next) => {
 };
 
 exports.signout = async (req, res, next) => {
+  const auth = req.headers["authorization"];
+
+  if (!auth) {
+    return res.status(403).send({ message: "Unauthorized user" });
+  }
+
+  const token = auth.split(" ")[1];
+
   try {
-    res.send({ result: "ok" });
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (decoded) {
+      res.status(204).send({ result: "Success" });
+    }
   } catch (err) {
     next(err);
   }
