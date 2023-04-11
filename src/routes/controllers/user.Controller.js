@@ -11,3 +11,11 @@ exports.getProjects = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.postProjects = async (req, res, next) => {
+  try {
+    res.send({ result: "ok" });
+  } catch (err) {
+    next(err);
+  }
+};
