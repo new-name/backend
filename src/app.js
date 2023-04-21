@@ -4,12 +4,20 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const AWS = require("aws-sdk");
 const connectMongoDB = require("./utils/mongoose");
+const bodyParser = require("body-parser");
 
 const app = express();
 
+app.use(bodyParser.json({ limit: "100mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "100mb",
+    extended: true,
+    parameterLimit: 100000,
+  }),
+);
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 AWS.config.update({
