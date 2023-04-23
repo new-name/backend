@@ -2,10 +2,11 @@ const Project = require("../../models/Project");
 const User = require("../../models/User");
 
 exports.getProjects = async (req, res, next) => {
-  const { email } = req.body;
+  const { user_id: userId } = req.params;
 
   try {
-    const projects = Project.find({ createdBy: email });
+    const user = await User.findById(userId);
+    const projects = await Project.find({ createdBy: user.email });
 
     res.status(200).send({ result: "Success", projects });
   } catch (err) {
@@ -14,7 +15,7 @@ exports.getProjects = async (req, res, next) => {
 };
 
 exports.postProjects = async (req, res, next) => {
-  const { allElements } = req.body;
+  const { allElements, thumbnail, projectId } = req.body;
   const { user_id: userId } = req.params;
 
   const textElements = [];
@@ -44,15 +45,22 @@ exports.postProjects = async (req, res, next) => {
   try {
     const user = await User.findById(userId);
 
-    if (user) {
-      await Project.create({
-        createdBy: user.email,
-        createdAt: Date.now(),
-        texts: textElements,
-        images: imageElements,
-        shapes: shapeElements,
-        gifs: gifElements,
-      });
+    const newProjectData = {
+      createdBy: user.email,
+      createdAt: Date.now(),
+      texts: textElements,
+      images: imageElements,
+      shapes: shapeElements,
+      gifs: gifElements,
+      thumbnail,
+    };
+
+    if (!projectId) {
+      await Project.create(newProjectData);
+    }
+
+    if (projectId) {
+      await Project.findOneAndUpdate({ _id: projectId }, newProjectData);
     }
 
     res.status(201).send({ result: "Success" });

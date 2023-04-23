@@ -18,6 +18,7 @@ const ProjectSchema = new mongoose.Schema({
   images: [ImageElementSchema],
   gifs: [GifElementSchema],
   shapes: [ShapeElementSchema],
+  thumbnail: { type: String },
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);
