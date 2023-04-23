@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const TextElementSchema = require("./TextElement");
 const ImageElementSchema = require("./ImageElement");
 const GifElementSchema = require("./GifElement");
+const ShapeElementSchema = require("./ShapeElement");
 
-const ImageSchema = new mongoose.Schema({
+const ProjectSchema = new mongoose.Schema({
   createdBy: {
     type: String,
     lowercase: true,
@@ -16,6 +17,7 @@ const ImageSchema = new mongoose.Schema({
   texts: [TextElementSchema],
   images: [ImageElementSchema],
   gifs: [GifElementSchema],
+  shapes: [ShapeElementSchema],
 });
 
-module.exports = mongoose.model("Image", ImageSchema);
+module.exports = mongoose.model("Project", ProjectSchema);

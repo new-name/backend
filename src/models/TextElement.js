@@ -1,18 +1,16 @@
 const mongoose = require("mongoose");
 
 const TextElementSchema = new mongoose.Schema({
-  content: {
-    type: String,
-    required: true,
-  },
+  type: { type: String, default: "Text" },
+  text: String,
   x: Number,
   y: Number,
-  fontSize: Number,
+  size: Number,
   color: String,
-  fontFamily: String,
+  fontStyle: String,
   rotate: Number,
-  layer: Number,
-  createdAt: Date,
+  zIndex: Number,
+  id: Number,
 });
 
 module.exports = TextElementSchema;

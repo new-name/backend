@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 const ImageElementSchema = new mongoose.Schema({
-  data: Buffer,
-  x: Number,
-  y: Number,
+  type: { type: String, default: "Image" },
+  uri: String,
   width: Number,
   height: Number,
-  rotate: Number,
-  layer: Number,
-  createdAt: Date,
+  x: Number,
+  y: Number,
+  zIndex: Number,
+  id: Number,
 });
 
 module.exports = ImageElementSchema;

@@ -1,5 +1,4 @@
 const GIFEncoder = require("gif-encoder-2");
-const fs = require("fs");
 const sharp = require("sharp");
 
 exports.makeGif = async (req, res, next) => {
@@ -10,6 +9,7 @@ exports.makeGif = async (req, res, next) => {
     encoder.start();
     encoder.setRepeat(0);
     encoder.setDelay(1000 / fps);
+    encoder.setQuality(5);
 
     for (const frame of encodedFrames) {
       const buffer = Buffer.from(frame.split(",")[1], "base64");
@@ -37,14 +37,10 @@ exports.makeGif = async (req, res, next) => {
 
     encoder.finish();
     const gifBuffer = encoder.out.getData();
-    fs.writeFileSync("output.gif", gifBuffer);
 
     res.set("Content-Type", "image/gif");
     res.send({ base64Gif: gifBuffer.toString("base64") });
   } catch (err) {
-    console.error("Error processing GIF:", err);
-    res
-      .status(500)
-      .send({ error: "An error occurred while processing the GIF." });
+    next(err);
   }
 };

@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 
 const GifElementSchema = new mongoose.Schema({
-  data: Buffer,
+  type: { type: String, default: "Gif" },
   x: Number,
   y: Number,
-  width: Number,
-  height: Number,
-  rotate: Number,
-  layer: Number,
-  createdAt: Date,
+  source: Object,
+  size: Number,
+  zIndex: Number,
+  id: Number,
 });
 
 module.exports = GifElementSchema;
