@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Project = require("../../models/Project");
 const User = require("../../models/User");
 
@@ -46,6 +47,7 @@ exports.postProjects = async (req, res, next) => {
     const user = await User.findById(userId);
 
     const newProjectData = {
+      _id: projectId || new mongoose.Types.ObjectId(),
       createdBy: user.email,
       createdAt: Date.now(),
       texts: textElements,
@@ -64,6 +66,18 @@ exports.postProjects = async (req, res, next) => {
     }
 
     res.status(201).send({ result: "Success" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteProjects = async (req, res, next) => {
+  const { projectId } = req.params;
+
+  try {
+    await Project.findByIdAndDelete({ _id: projectId });
+
+    res.status(204).send({ result: "delete" });
   } catch (err) {
     next(err);
   }

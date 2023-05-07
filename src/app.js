@@ -8,12 +8,12 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-app.use(bodyParser.json({ limit: "100mb" }));
+app.use(bodyParser.json({ limit: "300mb" }));
 app.use(
   bodyParser.urlencoded({
-    limit: "100mb",
+    limit: "300mb",
     extended: true,
-    parameterLimit: 100000,
+    parameterLimit: 1000000,
   }),
 );
 app.use(cors());
